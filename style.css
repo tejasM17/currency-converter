@@ -1,0 +1,151 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    background: #679ae6;
+    background: linear-gradient(90deg, rgba(103, 154, 230, 1) 0%, rgba(150, 227, 182, 1) 50%, rgba(237, 221, 83, 1) 100%);
+    font-family: Arial, sans-serif;
+    color: #333;
+
+}
+
+.layout {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 30px;
+}
+
+.container {
+    background-color: rgba(214, 223, 226, 0.5);
+    padding: 2rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    width: 85vh;
+    height: 80vh;
+}
+
+h1 {
+    margin-bottom: 1rem;
+    font-size: 2rem;
+    text-align: center;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+}
+
+.dropdown {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 2rem 0;
+
+}
+
+.select-container img {
+    max-width: 3.4rem;
+    height: auto;
+}
+
+.select-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 0.5rem;
+    border: 1px solid black;
+
+}
+
+.select-container select {
+    font-size: 1rem;
+    width: auto;
+}
+
+.dropdown i {
+    font-size: 1.5rem;
+    margin-top: 1rem;
+}
+
+.msg {
+    margin: 2rem 0 2rem 0;
+    text-align: center;
+}
+
+
+
+
+
+.amount,
+.dropdown,
+.msg {
+    margin-bottom: 1rem;
+}
+
+.amount p,
+.dropdown p,
+.msg {
+    margin-bottom: 0.5rem;
+}
+
+input[type="text"],
+select {
+    padding: 0.5rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    width: 100%;
+}
+
+button {
+    padding: 0.5rem;
+    height: 2.5rem;
+    margin-top: 1rem;
+    font-size: 1.1rem;
+    border: none;
+    border-radius: 4px;
+    background: #679ae6;
+    color: #fff;
+    cursor: pointer;
+
+}
+
+button:hover {
+    background: #3f7dd4;
+}
+
+
+.reference {
+    background-color: rgba(214, 223, 226, 0.5);
+    padding: 2rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    width: 200px;
+    max-height: 400px;
+    overflow-y: auto;
+}
+
+.reference h2 {
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+.reference ul {
+    list-style: none;
+    padding: 0;
+}
+
+.reference li {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 8px 0;
+}
