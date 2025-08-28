@@ -1,151 +1,316 @@
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
 body {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    height: 100vh;
-    background: #679ae6;
-    background: linear-gradient(90deg, rgba(103, 154, 230, 1) 0%, rgba(150, 227, 182, 1) 50%, rgba(237, 221, 83, 1) 100%);
-    font-family: Arial, sans-serif;
-    color: #333;
-
+  background: linear-gradient(270deg, #0f0c29, #302b63, #24243e);
+  background-size: 600% 600%;
+  animation: sciFiGradient 15s ease infinite;
+  font-family: "Courier New", monospace;
+  color: #00ffcc;
+  padding-top: 60px;
+  min-height: 100vh;
 }
 
-.layout {
-    display: flex;
-    justify-content: center;
-    align-items: flex-start;
-    gap: 30px;
+@keyframes sciFiGradient {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
 }
 
-.container {
-    background-color: rgba(214, 223, 226, 0.5);
-    padding: 2rem;
-    border-radius: 8px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    width: 85vh;
-    height: 80vh;
+.navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background: rgba(0, 0, 0, 0.8);
+  z-index: 1000;
+  box-shadow: 0 0 20px rgba(0, 255, 204, 0.5);
+  backdrop-filter: blur(10px);
+}
+
+.navbar ul {
+  list-style: none;
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+  margin: 0;
+  padding: 1rem 0;
+}
+
+.navbar a {
+  color: #00ffcc;
+  text-decoration: none;
+  font-size: 1.2rem;
+  transition: color 0.3s, text-shadow 0.3s;
+  text-shadow: 0 0 5px #00ffcc;
+}
+
+.navbar a:hover {
+  color: #ff00ff;
+  text-shadow: 0 0 10px #ff00ff;
+}
+
+.navbar a.active {
+  font-weight: bold;
+  text-decoration: underline;
+  text-shadow: 0 0 15px #00ffcc;
+}
+
+.section {
+  display: none;
+  justify-content: center;
+  align-items: center;
+  min-height: calc(100vh - 60px);
+  padding: 2rem;
+  transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+.section.active {
+  display: flex;
+  opacity: 1;
+  transform: scale(1);
+}
+
+.container,
+.calc-container {
+  background: rgba(0, 0, 0, 0.7);
+  padding: 2rem;
+  border-radius: 15px;
+  box-shadow: 0 0 30px rgba(0, 255, 204, 0.7), 0 0 60px rgba(255, 0, 255, 0.5);
+  max-width: 450px;
+  width: 100%;
+  animation: pulseGlow 2s infinite alternate;
+  border: 1px solid #00ffcc;
+}
+
+@keyframes pulseGlow {
+  0% {
+    box-shadow: 0 0 20px rgba(0, 255, 204, 0.5), 0 0 40px rgba(255, 0, 255, 0.3);
+  }
+  100% {
+    box-shadow: 0 0 40px rgba(0, 255, 204, 0.8), 0 0 80px rgba(255, 0, 255, 0.6);
+  }
 }
 
 h1 {
-    margin-bottom: 1rem;
-    font-size: 2rem;
-    text-align: center;
+  margin-bottom: 1rem;
+  font-size: 1.8rem;
+  text-align: center;
+  color: #ff00ff;
+  text-shadow: 0 0 10px #ff00ff;
+  animation: neonFlicker 1.5s infinite alternate;
 }
 
+@keyframes neonFlicker {
+  0% {
+    text-shadow: 0 0 5px #ff00ff;
+  }
+  100% {
+    text-shadow: 0 0 15px #ff00ff, 0 0 25px #ff00ff;
+  }
+}
+
+/* Converter Styles */
 form {
-    display: flex;
-    flex-direction: column;
+  display: flex;
+  flex-direction: column;
 }
 
 .dropdown {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin: 2rem 0;
-
-}
-
-.select-container img {
-    max-width: 3.4rem;
-    height: auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 1.5rem 0;
+  gap: 1rem;
 }
 
 .select-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border-radius: 0.5rem;
-    border: 1px solid black;
+  display: flex;
+  align-items: center;
+  border: 1px solid #00ffcc;
+  border-radius: 5px;
+  padding: 0.5rem;
+  transition: border-color 0.3s, box-shadow 0.3s;
+  background: rgba(0, 255, 204, 0.1);
+}
 
+.select-container:focus-within {
+  border-color: #ff00ff;
+  box-shadow: 0 0 15px #ff00ff;
+}
+
+.select-container img {
+  width: 32px;
+  height: auto;
+  margin-right: 0.5rem;
+  filter: drop-shadow(0 0 5px #00ffcc);
 }
 
 .select-container select {
-    font-size: 1rem;
-    width: auto;
+  border: none;
+  font-size: 1rem;
+  flex-grow: 1;
+  background: transparent;
+  color: #00ffcc;
+  cursor: pointer;
 }
 
 .dropdown i {
-    font-size: 1.5rem;
-    margin-top: 1rem;
+  font-size: 1.2rem;
+  cursor: pointer;
+  color: #00ffcc;
+  transition: color 0.3s, transform 0.3s, text-shadow 0.3s;
+}
+
+.dropdown i:hover {
+  color: #ff00ff;
+  transform: rotate(180deg);
+  text-shadow: 0 0 10px #ff00ff;
 }
 
 .msg {
-    margin: 2rem 0 2rem 0;
-    text-align: center;
+  margin: 1.5rem 0;
+  text-align: center;
+  font-weight: bold;
+  color: #00ffcc;
+  opacity: 1;
+  transition: opacity 0.5s ease;
+  text-shadow: 0 0 5px #00ffcc;
 }
 
-
-
-
-
-.amount,
-.dropdown,
-.msg {
-    margin-bottom: 1rem;
+.amount input {
+  padding: 0.75rem;
+  border: 1px solid #00ffcc;
+  border-radius: 5px;
+  width: 100%;
+  font-size: 1rem;
+  background: rgba(0, 0, 0, 0.5);
+  color: #00ffcc;
+  transition: border-color 0.3s, box-shadow 0.3s;
 }
 
-.amount p,
-.dropdown p,
-.msg {
-    margin-bottom: 0.5rem;
-}
-
-input[type="text"],
-select {
-    padding: 0.5rem;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    width: 100%;
+.amount input:focus {
+  border-color: #ff00ff;
+  box-shadow: 0 0 15px #ff00ff;
+  outline: none;
 }
 
 button {
-    padding: 0.5rem;
-    height: 2.5rem;
-    margin-top: 1rem;
-    font-size: 1.1rem;
-    border: none;
-    border-radius: 4px;
-    background: #679ae6;
-    color: #fff;
-    cursor: pointer;
-
+  padding: 0.75rem;
+  font-size: 1rem;
+  border: none;
+  border-radius: 5px;
+  background: linear-gradient(45deg, #00ffcc, #ff00ff);
+  color: #000;
+  cursor: pointer;
+  transition: background 0.3s, transform 0.1s, box-shadow 0.3s;
+  box-shadow: 0 0 10px #00ffcc;
 }
 
 button:hover {
-    background: #3f7dd4;
+  background: linear-gradient(45deg, #ff00ff, #00ffcc);
+  box-shadow: 0 0 20px #ff00ff;
 }
 
-
-.reference {
-    background-color: rgba(214, 223, 226, 0.5);
-    padding: 2rem;
-    border-radius: 8px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    width: 200px;
-    max-height: 400px;
-    overflow-y: auto;
+button:active {
+  transform: scale(0.98);
 }
 
-.reference h2 {
-    text-align: center;
-    margin-bottom: 10px;
+/* Calculator Styles */
+.calc-container form input {
+  border: 0;
+  outline: 0;
+  width: 70px;
+  height: 50px;
+  border-radius: 8px;
+  font-size: 1rem;
+  margin: 0.3rem;
+  cursor: pointer;
+  background: linear-gradient(45deg, #0f0c29, #302b63);
+  color: #00ffcc;
+  transition: background 0.3s, transform 0.1s, box-shadow 0.3s;
+  box-shadow: 0 0 5px rgba(0, 255, 204, 0.5);
 }
 
-.reference ul {
-    list-style: none;
-    padding: 0;
+.calc-container form input:hover {
+  background: linear-gradient(45deg, #302b63, #24243e);
+  box-shadow: 0 0 15px #ff00ff;
+  transform: scale(1.05);
 }
 
-.reference li {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    margin: 8px 0;
+.calc-container form input:active {
+  transform: scale(0.95);
+}
+
+#calc-clear,
+#calc-backspace {
+  background: linear-gradient(45deg, #ff0000, #ff4500);
+  color: #fff;
+  box-shadow: 0 0 10px #ff0000;
+}
+
+.equal {
+  background: linear-gradient(45deg, #00ff00, #00ffcc);
+  color: #000;
+  box-shadow: 0 0 10px #00ff00;
+  grid-column: span 2;
+  width: auto;
+}
+
+.calc-output {
+  display: flex;
+  justify-content: flex-end;
+  margin: 1rem 0;
+}
+
+.calc-output input {
+  text-align: right;
+  flex: 1;
+  font-size: 1.8rem;
+  border: 1px solid #00ffcc;
+  border-radius: 5px;
+  padding: 0.75rem;
+  background: rgba(0, 0, 0, 0.8);
+  color: #00ffcc;
+  width: 100%;
+  box-shadow: 0 0 10px #00ffcc;
+}
+
+.calc-btns {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0.3rem;
+}
+
+/* Responsive Media Queries */
+@media (max-width: 768px) {
+  .container,
+  .calc-container {
+    padding: 1.5rem;
+    max-width: 100%;
+  }
+  .dropdown {
+    flex-direction: column;
+    gap: 1rem;
+  }
+  .dropdown i {
+    margin: 0.5rem 0;
+  }
+  .calc-container form input {
+    width: 60px;
+    height: 50px;
+    font-size: 0.9rem;
+  }
+  .calc-btns {
+    grid-template-columns: repeat(4, 1fr);
+  }
 }

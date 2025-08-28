@@ -2,13 +2,18 @@ const BASE_URL =
   "https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@latest/v1/currencies";
 
 const dropdowns = document.querySelectorAll(".dropdown select");
-const btn = document.querySelector("form button");
+const btn = document.querySelector("#converter-section button");
 const fromCurr = document.querySelector(".from select");
 const toCurr = document.querySelector(".to select");
 const msg = document.querySelector(".msg");
+const amountInput = document.querySelector(".amount input");
+const swapIcon = document.querySelector(".swap-icon");
 
+let currentRate = null;
+
+// Populate dropdowns
 for (let select of dropdowns) {
-  for (currCode in countryList) {
+  for (let currCode in countryList) {
     let newOption = document.createElement("option");
     newOption.innerText = currCode;
     newOption.value = currCode;
@@ -22,42 +27,20 @@ for (let select of dropdowns) {
 
   select.addEventListener("change", (evt) => {
     updateFlag(evt.target);
+    updateExchangeRate();
   });
 }
 
-const updateExchangeRate = async () => {
-  let amount = document.querySelector(".amount input");
-  let amtVal = amount.value;
-  if (amtVal === "" || amtVal < 1) {
-    amtVal = 1;
-    amount.value = "1";
-  }
+// Debounce for input
+function debounce(func, delay) {
+  let timeout;
+  return (...args) => {
+    clearTimeout(timeout);
+    timeout = setTimeout(() => func(...args), delay);
+  };
+}
 
-  try {
-    const URL = `${BASE_URL}/${fromCurr.value.toLowerCase()}.json`;
-    const response = await fetch(URL);
-
-    if (!response.ok) {
-      const text = await response.text();
-      throw new Error(`Request failed: ${text}`);
-    }
-
-    const data = await response.json();
-    const rate = data[fromCurr.value.toLowerCase()][toCurr.value.toLowerCase()];
-
-    if (!rate) {
-      throw new Error(`Rate not available for ${fromCurr.value} to ${toCurr.value}`);
-    }
-
-    const finalAmount = (amtVal * rate).toFixed(2);
-    msg.innerText = `${amtVal} ${fromCurr.value} = ${finalAmount} ${toCurr.value}`;
-  } catch (err) {
-    msg.innerText = `Error: ${err.message}`;
-    console.error(err);
-  }
-};
-
-
+// Update flag
 const updateFlag = (element) => {
   let currCode = element.value;
   let countryCode = countryList[currCode];
@@ -66,52 +49,126 @@ const updateFlag = (element) => {
   img.src = newSrc;
 };
 
+// Update exchange rate
+const updateExchangeRate = async () => {
+  let amtVal = parseFloat(amountInput.value);
+  if (isNaN(amtVal) || amtVal <= 0) {
+    amtVal = 1;
+    amountInput.value = "1";
+  }
+
+  const fromVal = fromCurr.value.toLowerCase();
+  const toVal = toCurr.value.toLowerCase();
+
+  msg.style.opacity = 0;
+
+  try {
+    if (
+      !currentRate ||
+      fromCurr._lastFrom !== fromVal ||
+      fromCurr._lastTo !== toVal
+    ) {
+      const URL = `${BASE_URL}/${fromVal}.json`;
+      const response = await fetch(URL);
+      if (!response.ok)
+        throw new Error(`Request failed: ${await response.text()}`);
+      const data = await response.json();
+      currentRate = data[fromVal][toVal];
+      if (!currentRate)
+        throw new Error(
+          `Rate not available for ${fromCurr.value} to ${toCurr.value}`
+        );
+      fromCurr._lastFrom = fromVal;
+      fromCurr._lastTo = toVal;
+    }
+
+    const finalAmount = (amtVal * currentRate).toFixed(2);
+    msg.innerText = `${amtVal} ${fromCurr.value} = ${finalAmount} ${toCurr.value}`;
+  } catch (err) {
+    msg.innerText = `Error: ${err.message}`;
+    console.error(err);
+  } finally {
+    setTimeout(() => {
+      msg.style.opacity = 1;
+    }, 10);
+  }
+};
+
+// Swap
+swapIcon.addEventListener("click", () => {
+  const temp = fromCurr.value;
+  fromCurr.value = toCurr.value;
+  toCurr.value = temp;
+  updateFlag(fromCurr);
+  updateFlag(toCurr);
+  currentRate = null;
+  updateExchangeRate();
+});
+
+// Events
 btn.addEventListener("click", (evt) => {
   evt.preventDefault();
   updateExchangeRate();
 });
 
+amountInput.addEventListener("input", debounce(updateExchangeRate, 500));
+
 window.addEventListener("load", () => {
   updateExchangeRate();
 });
 
+// Navbar Toggle
+const converterLink = document.getElementById("converter-link");
+const calculatorLink = document.getElementById("calculator-link");
+const converterSection = document.getElementById("converter-section");
+const calculatorSection = document.getElementById("calculator-section");
 
+converterLink.addEventListener("click", (e) => {
+  e.preventDefault();
+  converterSection.classList.add("active");
+  calculatorSection.classList.remove("active");
+  converterLink.classList.add("active");
+  calculatorLink.classList.remove("active");
+});
 
+calculatorLink.addEventListener("click", (e) => {
+  e.preventDefault();
+  calculatorSection.classList.add("active");
+  converterSection.classList.remove("active");
+  calculatorLink.classList.add("active");
+  converterLink.classList.remove("active");
+});
 
+// Scientific Calculator Functions
+let calcDisplay = document.getElementById("calc-res");
+let calcDegrees = true; // Default to degrees; can add toggle if needed
 
+function calcSolve(val) {
+  calcDisplay.value += val;
+}
 
-
-
-
-const majorCurrencies = {
-  "usd": { name: "United States", flag: "https://flagsapi.com/US/flat/32.png" },
-  "inr": { name: "India", flag: "https://flagsapi.com/IN/flat/32.png" },
-  "eur": { name: "European Union", flag: "https://flagsapi.com/FR/flat/32.png" },
-  "gbp": { name: "United Kingdom", flag: "https://flagsapi.com/GB/flat/32.png" },
-  "jpy": { name: "Japan", flag: "https://flagsapi.com/JP/flat/32.png" },
-};
- const commonCurrencies = {
-    "aud": { name: "Australia", flag: "https://flagsapi.com/AU/flat/32.png" },
-    "cad": { name: "Canada", flag: "https://flagsapi.com/CA/flat/32.png" },
-    "cny": { name: "China", flag: "https://flagsapi.com/CN/flat/32.png" },
-    "chf": { name: "Switzerland", flag: "https://flagsapi.com/CH/flat/32.png" },
-    "aed": { name: "United Arab Emirates", flag: "https://flagsapi.com/AE/flat/32.png" },
-  };
-
-
-
-
- function fillReference(listId, obj) {
-    const el = document.getElementById(listId);
-    for (let code in obj) {
-      let li = document.createElement("li");
-      li.innerHTML = `
-        <img src="${obj[code].flag}" width="30">
-        <span>${obj[code].name} (${code.toUpperCase()})</span>
-      `;
-      el.appendChild(li);
-    }
+function calcResult() {
+  let expression = calcDisplay.value;
+  // Convert trig functions to radians if needed
+  if (calcDegrees) {
+    expression = expression.replace(/Math.sin\(/g, "Math.sin(Math.PI/180*");
+    expression = expression.replace(/Math.cos\(/g, "Math.cos(Math.PI/180*");
+    expression = expression.replace(/Math.tan\(/g, "Math.tan(Math.PI/180*");
+    expression = expression.replace(/Math.asin\(/g, "180/Math.PI*Math.asin(");
+    expression = expression.replace(/Math.acos\(/g, "180/Math.PI*Math.acos(");
+    expression = expression.replace(/Math.atan\(/g, "180/Math.PI*Math.atan(");
   }
+  try {
+    calcDisplay.value = eval(expression);
+  } catch {
+    calcDisplay.value = "Error";
+  }
+}
 
-  fillReference("left-list", majorCurrencies);
-  fillReference("right-list", commonCurrencies);
+function calcClear() {
+  calcDisplay.value = "";
+}
+
+function calcBack() {
+  calcDisplay.value = calcDisplay.value.slice(0, -1);
+}

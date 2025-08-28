@@ -1,92 +1,149 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Currency Converter</title>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Currency Converter & Scientific Calculator</title>
     <link href="style.css" rel="stylesheet" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css"
-        integrity="sha512-DxV+EoADOkOygM4IR9yXP8Sb2qwgidEmeqAEmDKIOfPRQZOWbXCzLC6vjbZyy0vPisbH2SyW27+ddLVCN+OMzQ=="
-        crossorigin="anonymous" referrerpolicy="no-referrer" />
-</head>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+      integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+  </head>
 
-<body>
+  <body>
+    <nav class="navbar">
+      <ul>
+        <li>
+          <a href="#" id="converter-link" class="active">Currency Converter</a>
+        </li>
+        <li><a href="#" id="calculator-link">Scientific Calculator</a></li>
+      </ul>
+    </nav>
 
+    <div id="converter-section" class="section active">
+      <div class="container">
+        <h1>Currency Converter</h1>
+        <form>
+          <div class="amount">
+            <p>Enter Amount</p>
+            <input value="1" type="text" aria-label="Amount to convert" />
+          </div>
+          <div class="dropdown">
+            <div class="from">
+              <p>From</p>
+              <div class="select-container">
+                <img
+                  src="https://flagsapi.com/US/flat/64.png"
+                  alt="From Flag"
+                />
+                <select name="from" aria-label="From currency"></select>
+              </div>
+            </div>
 
-    <div class="layout">
-        <!-- Left Reference -->
-        <div class="reference">
-            <h2>Currency Reference</h2>
-            <ul id="left-list"></ul>
-        </div>
+            <i
+              class="swap-icon fa-solid fa-right-left"
+              aria-label="Swap currencies"
+            ></i>
 
+            <div class="to">
+              <p>To</p>
+              <div class="select-container">
+                <img src="https://flagsapi.com/IN/flat/64.png" alt="To Flag" />
+                <select name="to" aria-label="To currency"></select>
+              </div>
+            </div>
+          </div>
 
-
-        <div class="container">
-            <h1>Currency Converter</h1>
-            <form>
-                <div class="amount">
-                    <p>Enter Amount</p>
-                    <input value="1" type="text" />
-                </div>
-                <div class="dropdown">
-                    <div class="from">
-                        <p>From</p>
-                        <div class="select-container">
-                            <img src="https://flagsapi.com/US/flat/64.png" alt="Flag" />
-                            <select name="from">
-                                <!-- <option value="USD">USD</option>
-                            <option value="INR">INR</option>
-                            <option value="EUR">EUR</option>
-                            <option value="AUD">AUD</option> -->
-                            </select>
-                        </div>
-                    </div>
-
-
-
-
-                    <i class="fa-solid fa-right-left"></i>
-
-
-
-
-                    <div class="to">
-                        <p>To</p>
-                        <div class="select-container">
-                            <img src="https://flagsapi.com/IN/flat/64.png" alt="Flag" />
-                            <select name="to">
-                                <!-- <option value="USD">USD</option>
-                            <option value="INR" selected>INR</option>
-                            <option value="EUR">EUR</option>
-                            <option value="AUD">AUD</option> -->
-                            </select>
-                        </div>
-                    </div>
-                </div>
-
-
-                <div class="msg">
-                    1 USD = 80 INR
-                </div>
-                <button>Get Exchange Rate</button>
-
-            </form>
-        </div>
-
-        <!-- Right Reference -->
-        <div class="reference">
-            <h2>Currency Reference</h2>
-            <ul id="right-list"></ul>
-        </div>
+          <div class="msg">1 USD = 80 INR</div>
+          <button type="button">Get Exchange Rate</button>
+        </form>
+      </div>
     </div>
 
+    <div id="calculator-section" class="section">
+      <div class="calc-container">
+        <h1>Scientific Calculator</h1>
+        <form>
+          <div class="calc-output">
+            <input type="text" id="calc-res" readonly />
+          </div>
+          <div class="calc-btns">
+            <input type="button" value="sin" onclick="calcSolve('Math.sin(')" />
+            <input type="button" value="cos" onclick="calcSolve('Math.cos(')" />
+            <input type="button" value="tan" onclick="calcSolve('Math.tan(')" />
+            <input type="button" value="π" onclick="calcSolve('Math.PI')" />
+            <input
+              type="button"
+              value="log"
+              onclick="calcSolve('Math.log10(')"
+            />
+            <input type="button" value="e" onclick="calcSolve('Math.E')" />
+            <input type="button" value="^" onclick="calcSolve('**')" />
+            <input type="button" value="√" onclick="calcSolve('Math.sqrt(')" />
+            <input
+              type="button"
+              value="asin"
+              onclick="calcSolve('Math.asin(')"
+            />
+            <input
+              type="button"
+              value="acos"
+              onclick="calcSolve('Math.acos(')"
+            />
+            <input
+              type="button"
+              value="atan"
+              onclick="calcSolve('Math.atan(')"
+            />
+            <input type="button" value="(" onclick="calcSolve('(')" />
+            <input type="button" value="ln" onclick="calcSolve('Math.log(')" />
+            <input type="button" value="exp" onclick="calcSolve('Math.exp(')" />
+            <input type="button" value=")" onclick="calcSolve(')')" />
+            <input type="button" value="%" onclick="calcSolve('%')" />
+            <input type="button" value="7" onclick="calcSolve('7')" />
+            <input type="button" value="8" onclick="calcSolve('8')" />
+            <input type="button" value="9" onclick="calcSolve('9')" />
+            <input type="button" value="/" onclick="calcSolve('/')" />
+            <input type="button" value="4" onclick="calcSolve('4')" />
+            <input type="button" value="5" onclick="calcSolve('5')" />
+            <input type="button" value="6" onclick="calcSolve('6')" />
+            <input type="button" value="*" onclick="calcSolve('*')" />
+            <input type="button" value="1" onclick="calcSolve('1')" />
+            <input type="button" value="2" onclick="calcSolve('2')" />
+            <input type="button" value="3" onclick="calcSolve('3')" />
+            <input type="button" value="-" onclick="calcSolve('-')" />
+            <input type="button" value="00" onclick="calcSolve('00')" />
+            <input type="button" value="0" onclick="calcSolve('0')" />
+            <input type="button" value="." onclick="calcSolve('.')" />
+            <input type="button" value="+" onclick="calcSolve('+')" />
+            <input
+              type="button"
+              value="C"
+              onclick="calcClear()"
+              id="calc-clear"
+            />
+            <input
+              type="button"
+              value="←"
+              onclick="calcBack()"
+              id="calc-backspace"
+            />
+            <input
+              type="button"
+              value="="
+              onclick="calcResult()"
+              class="equal"
+            />
+          </div>
+        </form>
+      </div>
+    </div>
 
     <script src="codes.js"></script>
     <script src="app.js"></script>
-
-
-</body>
-
+  </body>
 </html>
